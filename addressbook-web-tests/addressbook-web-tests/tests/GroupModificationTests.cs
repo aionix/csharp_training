@@ -5,11 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WebAddressBookTests { 
-
-
+namespace WebAddressBookTests.tests
+{ 
+    
     [TestFixture]
-
     public class GroupModificationTests : TestBase
     {
         [Test]

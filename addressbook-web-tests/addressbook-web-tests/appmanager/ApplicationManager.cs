@@ -15,13 +15,15 @@ namespace WebAddressBookTests
         protected LoginHelper loginHelper;
         protected NavigationHelper navigation;
         protected GroupHelper groupHelper;
+        protected ContactHelper contactHelper;
 
         public ApplicationManager() {
-            Init();          
+            Init();
             loginHelper = new LoginHelper(this);
             navigation = new NavigationHelper(this, baseURL);
             groupHelper = new GroupHelper(this);
-        
+            contactHelper = new ContactHelper(this);
+
         }
 
         public void Init() {
@@ -39,13 +41,13 @@ namespace WebAddressBookTests
         }
 
         public void Stop() {
-            try{ driver.Quit();
-            }catch (Exception)
+            try { driver.Quit();
+            } catch (Exception)
             {
-             // Ignore errors if unable to close the browser
-            }         
+                // Ignore errors if unable to close the browser
+            }
         }
-    
+
         public LoginHelper session {
             get {
                 return loginHelper;
@@ -59,6 +61,11 @@ namespace WebAddressBookTests
         public GroupHelper groups {
             get {
                 return groupHelper;
+            }
+        }
+        public ContactHelper contacts {
+            get{
+                return contactHelper;            
             }
         }
 
