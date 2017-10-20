@@ -1,17 +1,32 @@
-﻿using System;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Threading;
 
-namespace addressbook_web_tests
-{
-    class ForRunning
+namespace WebAddressBookTests.tests
+
+{   [TestClass]
+    public class ForRunning
     {
-        public static void Main(String[] args)
-        {
-            Thread.Sleep(2000);
-            Console.WriteLine("asd");
-            Console.ReadKey();
-            
-            
-        }
+        //public static void Main(String[] args)
+        //{
+            //thread.sleep(2000);
+            //console.writeline("asd");
+            //console.readkey();
+
+        [TestMethod]
+        public void methodForTesting()
+            {
+
+            DateTime thisDay = DateTime.Now;
+            String hour = thisDay.Hour.ToString();
+            String time = thisDay.Minute.ToString();
+            String sec = thisDay.Second.ToString();
+            String TheTime = "Hr_"+hour + ":" + time + "." + sec;                     
+           // System.Console.Out.WriteLine(TheTime);
+
+
+            }
+
     }
 }
+

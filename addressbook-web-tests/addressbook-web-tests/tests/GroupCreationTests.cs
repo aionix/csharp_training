@@ -6,11 +6,12 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Support.UI;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace WebAddressBookTests.tests
 {
     [TestFixture]
-    public class GroupCreationTests : TestBase
+    public class GroupCreationTests : AuthTestBase
     {
         [Test]
         public void GroupCreationTest()
@@ -26,15 +27,13 @@ namespace WebAddressBookTests.tests
         {
             app.groups.CreateGroup(new GroupData("", "", ""));
         }
-
         [Test]
-        public void some() {
-            app.groups.InitGroupCreation();
-            app.groups.FillGroupForm(new GroupData("some test", "header", " footer"));
-            app.groups.SubmitGroupCreation();
-
-
+        public void EmptyGroupCreationTest2()
+        {
+            app.groups.CreateGroup(new GroupData("ddd", null, ""));
         }
+
+
 
 
 

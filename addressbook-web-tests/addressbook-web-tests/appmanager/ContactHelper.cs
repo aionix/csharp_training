@@ -10,7 +10,7 @@ namespace WebAddressBookTests
         public ContactHelper(ApplicationManager manager) : base(manager)
         {
         }
-              
+
         public ContactHelper CreateContact(ContactData contact)
         {
             manager.navigator.GoToContactpage();
@@ -24,20 +24,20 @@ namespace WebAddressBookTests
         {
             manager.navigator.GoToContactpage();
             SelectContactToModify(n);
-            Thread.Sleep(5000);
+        //    Thread.Sleep(5000);
             FillContactInfo(contact)
-            .SubmitContactModification();            
+            .SubmitContactModification();
             manager.navigator.GoToContactpage();
             return this;
         }
-                
+
         public void Remove(int n)
         {
             manager.navigator.GoToContactpage();
             SelectContact(n)
             .RemoveContact();
             AcceptAlert();
-            manager.navigator.GoToContactpage();            
+            manager.navigator.GoToContactpage();
         }
 
         public ContactHelper RemoveContact()
@@ -46,25 +46,22 @@ namespace WebAddressBookTests
             return this;
         }
 
-        private ContactHelper SelectContact(int index)
-        {
-            driver.FindElement(By.XPath(".//tbody/tr["+ index +"]"+"/td[1]")).Click();
+        private ContactHelper SelectContact(int index) {
+            if (index < 2)
+            {
+                index = 2;
+            }driver.FindElement(By.XPath(".//tbody/tr["+ index +"]"+"/td[1]")).Click();
             return this;
-        }
+        } 
 
         public ContactHelper FillContactInfo(ContactData contact)
         {
-            driver.FindElement(By.Name("firstname")).Clear();
-            driver.FindElement(By.Name("firstname")).SendKeys(contact.Firstname);
-            driver.FindElement(By.Name("middlename")).Clear();
-            driver.FindElement(By.Name("middlename")).SendKeys(contact.Middlename);
-            driver.FindElement(By.Name("lastname")).Clear();
-            driver.FindElement(By.Name("lastname")).SendKeys(contact.Lastname);
-            // driver.FindElement(By.CssSelector("form>input[name='submit']:nth-of-type(1)")).Click;
+            string time = GetCurTime();
+            Type(By.Name("firstname"),contact.Firstname+" "+time);
+            Type(By.Name("middlename"), contact.Middlename);
+            Type(By.Name("lastname"), contact.Lastname);
             return this;       
-        }
-
-       
+        }            
 
         public ContactHelper InitContactCreation()
         {

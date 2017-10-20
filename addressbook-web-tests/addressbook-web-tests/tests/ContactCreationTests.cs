@@ -8,7 +8,7 @@ namespace WebAddressBookTests.tests
         [Test]
         public void ContactCreationTest()
         {
-            ContactData contact = new ContactData("first name");
+            ContactData contact = new ContactData("created name");          
             contact.Middlename = "mid namme";
             contact.Lastname = "l name";
             app.contacts.CreateContact(contact);

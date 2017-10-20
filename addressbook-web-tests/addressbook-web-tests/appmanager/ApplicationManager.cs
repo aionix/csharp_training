@@ -2,7 +2,7 @@
 using OpenQA.Selenium.Firefox;
 using System;
 using System.Text;
-
+using System.Threading;
 
 namespace WebAddressBookTests
 {
@@ -16,23 +16,45 @@ namespace WebAddressBookTests
         protected NavigationHelper navigation;
         protected GroupHelper groupHelper;
         protected ContactHelper contactHelper;
+        private static ThreadLocal<ApplicationManager> app = new ThreadLocal<ApplicationManager>();
 
-        public ApplicationManager() {
+        private ApplicationManager() {
             Init();
             loginHelper = new LoginHelper(this);
             navigation = new NavigationHelper(this, baseURL);
             groupHelper = new GroupHelper(this);
             contactHelper = new ContactHelper(this);
-
         }
-
+       
         public void Init() {
             FirefoxOptions options = new FirefoxOptions();
             options.UseLegacyImplementation = true;
             options.BrowserExecutableLocation = @"C:\Program Files (x86)\Mozilla Firefox\firefox.exe";
             driver = new FirefoxDriver(options);
             baseURL = "http://localhost/";
+        }
 
+         ~ApplicationManager()
+        {          
+                try
+                {
+                    driver.Quit();
+                }
+                catch (Exception)
+                {
+                    // Ignore errors if unable to close the browser
+                }            
+        }
+        public static ApplicationManager GetInstance()
+        {
+            if (!app.IsValueCreated)
+            {
+                ApplicationManager newInstance = new ApplicationManager();
+                newInstance.navigator.OpenHomepage();
+                app.Value = newInstance;
+               
+            }
+            return app.Value;
         }
         public IWebDriver Driver {
             get {
@@ -40,13 +62,7 @@ namespace WebAddressBookTests
             }
         }
 
-        public void Stop() {
-            try { driver.Quit();
-            } catch (Exception)
-            {
-                // Ignore errors if unable to close the browser
-            }
-        }
+        
 
         public LoginHelper session {
             get {

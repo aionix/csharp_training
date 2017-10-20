@@ -9,19 +9,20 @@ namespace WebAddressBookTests
 
 
         [SetUp]
-        public void SetupTest()
+        public void SetupApplicationManager()
         {
-            app = new ApplicationManager();
-            app.navigator.OpenHomepage();
-            app.session.Login(new AccountData("admin", "secret"));
-                                
-            
+            app = ApplicationManager.GetInstance();
+            //    app.session.Login(new AccountData("admin", "secret"));
+            //app = new ApplicationManager();
+            //app.navigator.OpenHomepage();
+            //app.session.Login(new AccountData("admin", "secret"));
         }
+        //[TearDown]   option 2
+        //public void StopApplicationManager()
+        //{
+        //    app.Stop();
+        //}
 
-        [TearDown]
-        public void TeardownTest()
-        {
-            app.Stop();
-        }
     }
 }
+

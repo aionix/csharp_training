@@ -9,11 +9,11 @@ namespace WebAddressBookTests.tests
 { 
     
     [TestFixture]
-    public class GroupModificationTests : TestBase
+    public class GroupModificationTests : AuthTestBase
     {
         [Test]
         public void GroupModificationTest() {
-            GroupData newData = new GroupData("new name", "new string", "new footer");
+            GroupData newData = new GroupData("FFFFFFF", null, "GOOOOOOOOOOOOO");
             app.groups.Modify(1, newData);
         }
     }

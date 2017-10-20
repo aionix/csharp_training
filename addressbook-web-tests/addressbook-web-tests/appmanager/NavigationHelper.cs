@@ -17,10 +17,13 @@ namespace WebAddressBookTests
             this.baseURL = baseurl;
         }
 
-
         public void GoToGroupspage()
         {
-            driver.FindElement(By.LinkText("groups")).Click();
+            if (driver.Url == "http://localhost/addressbook/group.php"
+                && isElementPresent(By.Name("new")))
+            {
+                return;
+            } driver.FindElement(By.LinkText("groups")).Click();
         }
 
         public void OpenHomepage()
