@@ -36,7 +36,7 @@ namespace WebAddressBookTests
             return TheTime;
             // System.Console.Out.WriteLine(TheTime);
         }
-        protected Boolean isElementPresent(By locator)
+        public Boolean isElementPresent(By locator)
         {
             try
             {

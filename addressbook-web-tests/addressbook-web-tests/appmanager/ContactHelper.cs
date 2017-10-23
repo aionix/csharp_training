@@ -24,7 +24,6 @@ namespace WebAddressBookTests
         {
             manager.navigator.GoToContactpage();
             SelectContactToModify(n);
-        //    Thread.Sleep(5000);
             FillContactInfo(contact)
             .SubmitContactModification();
             manager.navigator.GoToContactpage();
@@ -84,7 +83,9 @@ namespace WebAddressBookTests
         }
         public ContactHelper SelectContactToModify(int index)
         {
-            driver.FindElement(By.XPath(".//tbody/tr["+index+"]/td[8]")).Click();
+            if (index < 2){index = 2;
+            }
+                driver.FindElement(By.XPath(".//tbody/tr["+index+"]/td[8]")).Click();
             return this;
         }
         public ContactHelper SubmitContactModification()
@@ -92,8 +93,14 @@ namespace WebAddressBookTests
             driver.FindElement(By.Name("update")).Click();
             return this;
         }
-
-
+        public bool IsThereAContact()
+        {
+            manager.navigator.GoToContactpage();
+            return isElementPresent(By.CssSelector(".center>input[name='selected[]']"));
+        }
     }
 
+
 }
+
+

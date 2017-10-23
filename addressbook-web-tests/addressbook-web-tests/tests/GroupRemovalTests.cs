@@ -11,7 +11,15 @@ namespace WebAddressBookTests
 {
     [TestFixture]
     public class GroupremovalTests : AuthTestBase
-    {       
+    {
+        [SetUp]
+        public void Preconditions() {
+            if (! app.groups.IsThereAGroup())
+            {
+                app.groups.CreateGroup
+                    (new GroupData("back up gr", "backup head", "backup foot"));
+            }
+        }
 
         [Test]
         public void GroupRemovalTest()

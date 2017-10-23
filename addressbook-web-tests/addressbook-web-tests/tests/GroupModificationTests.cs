@@ -11,6 +11,16 @@ namespace WebAddressBookTests.tests
     [TestFixture]
     public class GroupModificationTests : AuthTestBase
     {
+        [SetUp]
+        public void Preconditions()
+        {
+            if (!app.groups.IsThereAGroup())
+            {
+                app.groups.CreateGroup
+                    (new GroupData("back up gr", "backup head", "backup foot"));
+            }
+        }
+
         [Test]
         public void GroupModificationTest() {
             GroupData newData = new GroupData("FFFFFFF", null, "GOOOOOOOOOOOOO");

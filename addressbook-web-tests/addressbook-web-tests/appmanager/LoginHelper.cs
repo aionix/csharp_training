@@ -29,11 +29,11 @@ namespace WebAddressBookTests
         {
             return isElementPresent(By.Name("logout"));
         }
-        //logged with expected user
+        
         public bool IsLoggedInWithExpectedUser(AccountData account)
         {
             return isLoggedIn() && driver.FindElement(By.Name("logout")).FindElement(By.TagName("b")).Text 
-                == "(" + account.Username + ")";
+                == "(" + account.Password + ")";
         }
 
         public void Logout()

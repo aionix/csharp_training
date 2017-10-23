@@ -33,10 +33,10 @@ namespace WebAddressBookTests
 
         public GroupHelper Remove(int p)
         {
-            manager.navigator.GoToGroupspage();
-            SelectGroup(p)
-                .RemoveGroup()
-                .ReturnToGroupspage();
+            manager.navigator.GoToGroupspage();            
+                SelectGroup(p)
+                    .RemoveGroup()
+                    .ReturnToGroupspage();                       
             return this;
         }
 
@@ -91,5 +91,12 @@ namespace WebAddressBookTests
             driver.FindElement(By.Name("edit")).Click();
             return this;
         }
+
+        public bool IsThereAGroup()
+        {
+            manager.navigator.GoToGroupspage();
+            return isElementPresent(By.CssSelector(".group>input"));
+            }
+        }
     }
-}
+
