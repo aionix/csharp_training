@@ -1,6 +1,6 @@
 ﻿using System;
 using OpenQA.Selenium;
-
+using System.Collections.Generic;
 
 namespace WebAddressBookTests
 {
@@ -11,7 +11,6 @@ namespace WebAddressBookTests
         }
 
         public GroupHelper CreateGroup( GroupData group) {
-            //      NavigationHelper navig = new NavigationHelper(driver, "http://localhost/");
             manager.navigator.GoToGroupspage();
             InitGroupCreation()
                 .FillGroupForm(group)
@@ -20,15 +19,33 @@ namespace WebAddressBookTests
             return this;
         }
 
-        public GroupHelper Modify(int v, GroupData newData)
+        public GroupHelper Modify(int n, GroupData newData)
         {
             manager.navigator.GoToGroupspage();
-            SelectGroup(v);
+            SelectGroup(n);
             InitGroupModification();
             FillGroupForm(newData);
             SubmitGroupModification();
             ReturnToGroupspage();
             return this;
+        }
+
+        private List<GroupData> groupCache = null;
+
+        public List<GroupData> GetGroupsList()
+        {
+            if (groupCache == null)
+            {
+                groupCache = new List<GroupData>();
+                manager.navigator.GoToGroupspage();
+                ICollection<IWebElement> elements = driver.FindElements(By.ClassName("group"));
+                foreach (IWebElement element in elements)
+                {
+                    groupCache.Add(new GroupData(element.Text){
+                        Id = element.FindElement(By.TagName("input")).GetAttribute("value")
+                    });                                       
+                }                
+            } return new List<GroupData>(groupCache);
         }
 
         public GroupHelper Remove(int p)
@@ -43,6 +60,7 @@ namespace WebAddressBookTests
         public GroupHelper SubmitGroupCreation()
         {
             driver.FindElement(By.Name("submit")).Click();
+            groupCache = null;
             return this;
         }
 
@@ -54,7 +72,8 @@ namespace WebAddressBookTests
 
         public GroupHelper FillGroupForm(GroupData group)
         {
-            Type(By.Name("group_name"), group.Name);
+            string time = GetCurTime();
+            Type(By.Name("group_name"), group.Name); //+ " created:"+time);
             Type(By.Name("group_header"), group.Header);
             Type(By.Name("group_footer"), group.Footer);           
             return this;
@@ -65,6 +84,7 @@ namespace WebAddressBookTests
         public GroupHelper RemoveGroup()
         {
             driver.FindElement(By.Name("delete")).Click();
+            groupCache = null;
             return this;
         }
 
@@ -83,6 +103,7 @@ namespace WebAddressBookTests
         public GroupHelper SubmitGroupModification()
         {
             driver.FindElement(By.Name("update")).Click();
+            groupCache = null;
             return this;
         }
 
@@ -97,6 +118,28 @@ namespace WebAddressBookTests
             manager.navigator.GoToGroupspage();
             return isElementPresent(By.CssSelector(".group>input"));
             }
+
+        public int GetGroupCount()
+        {
+            return driver.FindElements(By.ClassName("group")).Count;
+        }
+
+        public List<GroupData> GetGroupsList2()
+        {
+                manager.navigator.GoToGroupspage();
+                List<GroupData> groups = new List<GroupData>();
+                ICollection<IWebElement> elements = driver.FindElements(By.ClassName("group"));
+                foreach (IWebElement element in elements)
+                {
+                    GroupData group = new GroupData(element.Text);
+                    group.Id = element.FindElement(By.TagName("input")).GetAttribute("value");
+                    groups.Add(group);             
+                }return groups;
+
+        }
+            
+
         }
     }
+    
 
