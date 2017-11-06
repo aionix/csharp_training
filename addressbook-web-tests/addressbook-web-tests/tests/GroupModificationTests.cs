@@ -23,7 +23,7 @@ namespace WebAddressBookTests.tests
 
         [Test]
         public void GroupModificationTest() {
-            GroupData newData = new GroupData("modified F1", null, "GOOOOOOOOOOOOO");
+            GroupData newData = new GroupData("modified AAB", null, "GOOOOOOOOOOOOO");
             List<GroupData> oldGroup = app.groups.GetGroupsList();
             GroupData olddata = oldGroup[0];
 
@@ -31,13 +31,10 @@ namespace WebAddressBookTests.tests
 
             List<GroupData> newGroup = app.groups.GetGroupsList();
             oldGroup[0].Name = newData.Name;
-            newGroup.Sort();
-            oldGroup.Sort();
-            Assert.AreEqual(oldGroup, newGroup);
 
-            foreach (GroupData group in newGroup) {
-                if (group.Id == olddata.Id ) {
-                    Assert.AreEqual(group.Name, newData.Name);
+            foreach (GroupData newgroup in newGroup) {
+                if (newgroup.Id == olddata.Id ) {
+                    Assert.AreEqual(newgroup.Name, newData.Name);
 
                 }
             }

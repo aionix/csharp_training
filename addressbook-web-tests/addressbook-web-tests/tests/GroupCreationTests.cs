@@ -10,12 +10,12 @@ namespace WebAddressBookTests.tests
     { 
         [Test]
         public void GroupCreationTest()
-        {
-            
+        {            
             GroupData group = new GroupData("header_name", "gr head", "gr foot");
             List<GroupData> oldGroup = app.groups.GetGroupsList();
 
             app.groups.CreateGroup(group);
+            
             Assert.AreEqual(oldGroup.Count+1, app.groups.GetGroupCount());
 
             List<GroupData> newGroup = app.groups.GetGroupsList();
@@ -33,11 +33,13 @@ namespace WebAddressBookTests.tests
 
             List<GroupData> oldGroup = app.groups.GetGroupsList();
             app.groups.CreateGroup(group);
-                      
+            Assert.AreEqual(oldGroup.Count + 1, app.groups.GetGroupCount());
+
             List<GroupData> newGroup = app.groups.GetGroupsList();
             oldGroup.Add(group);
             newGroup.Sort();
             oldGroup.Sort();
+
             Assert.AreEqual(oldGroup, newGroup);
         }
 

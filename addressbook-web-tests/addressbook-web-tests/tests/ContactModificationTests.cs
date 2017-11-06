@@ -1,5 +1,5 @@
 ﻿using NUnit.Framework;
-
+using System.Collections.Generic;
 
 namespace WebAddressBookTests.tests
 {
@@ -21,8 +21,20 @@ namespace WebAddressBookTests.tests
         [Test]
         public void contactModificationTest()
         {
-            ContactData contact = new ContactData("modified name");
+            ContactData contact = new ContactData("modified name", null);
+            List<ContactData> oldGroup = app.contacts.GetListOfContacts();
+            ContactData toBeModified = oldGroup[0];
             app.contacts.Modify(1, contact);
+
+            List<ContactData> newGroup = app.contacts.GetListOfContacts();
+            
+            foreach (ContactData group in newGroup) {
+                if (group.Id.Equals(toBeModified.Id))
+                {
+                    Assert.AreNotEqual(group.Firstname, toBeModified.Firstname);
+                }
+            }
+
 
         }
 

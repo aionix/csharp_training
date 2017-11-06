@@ -2,6 +2,7 @@
 using OpenQA.Selenium;
 using NUnit.Framework;
 using System.Threading;
+using System.Collections.Generic;
 
 namespace WebAddressBookTests
 {
@@ -30,6 +31,21 @@ namespace WebAddressBookTests
             return this;
         }
 
+        public List<ContactData> GetListOfContacts()
+        {
+            manager.navigator.GoToContactpage();
+            List<ContactData> contacts = new List<ContactData>();
+            manager.navigator.GoToContactpage();
+            ICollection<IWebElement> elements = driver.FindElements(By.XPath(".//*[@name='entry']"));
+            foreach (IWebElement element in elements) {
+                ContactData contact = new ContactData(element.FindElement(By.XPath(".//td[3]")).Text);
+                contact.Lastname = element.FindElement(By.XPath(".//td[2]")).Text;
+                contact.Id = element.FindElement(By.TagName("input")).GetAttribute("id");
+
+                contacts.Add(contact);
+            }return contacts;
+        }
+
         public void Remove(int n)
         {
             manager.navigator.GoToContactpage();
@@ -56,7 +72,7 @@ namespace WebAddressBookTests
         public ContactHelper FillContactInfo(ContactData contact)
         {
             string time = GetCurTime();
-            Type(By.Name("firstname"),contact.Firstname+" "+time);
+            Type(By.Name("firstname"), contact.Firstname);//+" "+time);
             Type(By.Name("middlename"), contact.Middlename);
             Type(By.Name("lastname"), contact.Lastname);
             return this;       

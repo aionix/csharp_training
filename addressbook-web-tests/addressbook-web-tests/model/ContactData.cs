@@ -6,46 +6,53 @@ using System.Threading.Tasks;
 
 namespace WebAddressBookTests
 {
-    public class ContactData
+    public class ContactData : IEquatable<ContactData>, IComparable<ContactData>
     {
-        private string firstname;
-        private string middlename = "";
-        private string lastname = "";
+        //private string firstname;
+        //private string middlename = "";
+        //private string lastname = "";
 
         public ContactData(string firstname) {
-            this.firstname = firstname;
+            Firstname = firstname;
+        }
+        public ContactData(string firstname, string lastname)
+        {
+            Firstname = firstname;
+            Lastname = lastname;
+        }
+        public string Firstname     { get; set; }
+        public string Middlename    { get; set; }
+        public string Lastname      { get; set; }
+        public string Id            { get; set; }
+
+        public int CompareTo(ContactData other)
+        {
+            if(Object.ReferenceEquals(other, null))
+            {
+                return 1;
+            }
+            return Firstname.CompareTo(other.Firstname);
         }
 
-        public string Firstname {
-        get {
-                return firstname;
-            }
-        set {
-                firstname = value;
-            }
-        }
-        public string Middlename
+        public bool Equals(ContactData other)
         {
-            get
+            if (Object.ReferenceEquals(other, null))
             {
-                return middlename;
+                return false;
             }
-            set
+            if (Object.ReferenceEquals(this, other))
             {
-                middlename = value;
+                return true;
             }
+            return Firstname == other.Firstname && Lastname == other.Lastname;
         }
-        public string Lastname
+        public override int GetHashCode()
         {
-            get
-            {
-                return lastname;
-            }
-            set
-            {
-                lastname = value;
-            }
+            return Firstname.GetHashCode();
         }
-
+        public override string ToString()
+        {
+            return "firstname: " + Firstname + " lastname: " + Lastname + " ID:" + Id;
+        }
     }
 }
