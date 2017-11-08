@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace WebAddressBookTests
@@ -11,6 +12,7 @@ namespace WebAddressBookTests
         //private string firstname;
         //private string middlename = "";
         //private string lastname = "";
+        private string allphones;
 
         public ContactData(string firstname) {
             Firstname = firstname;
@@ -24,6 +26,28 @@ namespace WebAddressBookTests
         public string Middlename    { get; set; }
         public string Lastname      { get; set; }
         public string Id            { get; set; }
+        public string Address       { get; set; }
+        public string Homephone     { get; set; }
+        public string Mobile        { get; set; }
+        public string WorkPhone     { get; set; }
+        public string Allphones {
+            get
+            {
+                if (allphones != null) { return allphones; }
+                else { return (CleanUp(Homephone) + CleanUp(Mobile) + CleanUp(WorkPhone)).Trim(); }
+            }
+            set
+            {
+                allphones = value;
+            }
+        }
+
+        private string CleanUp(string phone)
+        {
+            if (phone == null || phone == "") { return ""; }
+            //replace "[-()]" with ""
+            return Regex.Replace(phone, "[ -()]", "") +"\r\n";
+        }
 
         public int CompareTo(ContactData other)
         {

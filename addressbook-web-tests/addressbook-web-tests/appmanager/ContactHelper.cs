@@ -3,6 +3,7 @@ using OpenQA.Selenium;
 using NUnit.Framework;
 using System.Threading;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace WebAddressBookTests
 {
@@ -10,6 +11,46 @@ namespace WebAddressBookTests
     {
         public ContactHelper(ApplicationManager manager) : base(manager)
         {
+        }
+
+        public ContactData GetContactInformationFromTable(int index)
+        {
+            manager.navigator.GoToContactpage();
+            IList<IWebElement> cells = driver.FindElements(By.Name("entry"))[index].FindElements(By.TagName("td"));
+            string lastname =   cells[1].Text;
+            string firstname =  cells[2].Text;
+            string address =    cells[3].Text;
+            string allphones =  cells[5].Text;
+
+            return new ContactData(firstname, lastname)
+            {
+                Address = address,
+                Allphones = allphones
+            };
+        }
+
+        public ContactData GetContactInformationFromEditForm(int index)
+        {
+            manager.navigator.GoToContactpage();
+            InitContactModification(index);
+            string firstname = driver.FindElement(By.Name("firstname")).GetAttribute("value");
+            string lastname = driver.FindElement(By.Name("lastname")).GetAttribute("value");
+            string address = driver.FindElement(By.Name("address")).GetAttribute("value");
+            string homephone = driver.FindElement(By.Name("home")).GetAttribute("value");
+            string mobile = driver.FindElement(By.Name("mobile")).GetAttribute("value");
+            string workphone = driver.FindElement(By.Name("work")).GetAttribute("value");
+            return new ContactData(firstname, lastname)
+            {
+                Address = address, Homephone = homephone,
+                Mobile = mobile, WorkPhone = workphone
+            };
+                       
+        }
+
+        public void InitContactModification(int index)
+        {   //first element starts from 0
+            driver.FindElements(By.Name("entry"))[index].FindElements(By.TagName("td"))[7]
+                .FindElement(By.TagName("a")).Click();
         }
 
         public ContactHelper CreateContact(ContactData contact)
@@ -124,6 +165,13 @@ namespace WebAddressBookTests
         {
             manager.navigator.GoToContactpage();
             return isElementPresent(By.CssSelector(".center>input[name='selected[]']"));
+        }
+        public int GetNumberOfSearchResults()
+        {
+            manager.navigator.GoToContactpage();
+            string text = driver.FindElement(By.TagName("label")).Text;
+            Match m = new Regex("\\d+").Match(text);
+            return Int32.Parse(m.Value);
         }
     }
 

@@ -30,11 +30,7 @@ namespace WebAddressBookTests.tests
         [Test]
         public void GetListOfGroups()
         {
-            List<ContactData> gr = app.contacts.GetListOfContacts();
-            for (int i = 0; i < gr.Count; i++)
-            {
-                System.Console.Out.WriteLine(gr[i].Firstname + " "+gr[i].Id);
-            }
+            System.Console.Out.Write(app.contacts.GetNumberOfSearchResults());
 
         }
     }
