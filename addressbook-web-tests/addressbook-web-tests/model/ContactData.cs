@@ -9,10 +9,9 @@ namespace WebAddressBookTests
 {
     public class ContactData : IEquatable<ContactData>, IComparable<ContactData>
     {
-        //private string firstname;
-        //private string middlename = "";
-        //private string lastname = "";
+
         private string allphones;
+        private string allmails;
 
         public ContactData(string firstname) {
             Firstname = firstname;
@@ -30,11 +29,27 @@ namespace WebAddressBookTests
         public string Homephone     { get; set; }
         public string Mobile        { get; set; }
         public string WorkPhone     { get; set; }
+        public string Email         { get; set; }
+        public string Email2        { get; set; }
+        public string Email3        { get; set; }
+
+        public string Allmails {
+            get
+            {
+                if (allmails != null) { return allmails; }
+                else { return (CleanUp2( Email) +CleanUp2( Email2) + CleanUp2( Email3)).Trim(); }
+            }
+            set
+            {
+                allmails = value;
+            }
+        }
         public string Allphones {
             get
             {
                 if (allphones != null) { return allphones; }
-                else { return (CleanUp(Homephone) + CleanUp(Mobile) + CleanUp(WorkPhone)).Trim(); }
+                   else { return (CleanUp(Homephone) + CleanUp(Mobile) + CleanUp(WorkPhone)).Trim(); }
+                //else { return CleanUp(allphones); }
             }
             set
             {
@@ -42,11 +57,15 @@ namespace WebAddressBookTests
             }
         }
 
-        private string CleanUp(string phone)
+        public string CleanUp(string phone)
         {
             if (phone == null || phone == "") { return ""; }
-            //replace "[-()]" with ""
-            return Regex.Replace(phone, "[ -()]", "") +"\r\n";
+            /* replace "[-()]" with "" in string with all phone numbers */            
+            return phone.Replace(" ", "").Replace("(", "").Replace(")", "").Replace("-", "") + "\r\n";           
+            //return Regex.Replace(phone, "[ -()]", "") +"\r\n";
+        }
+        public string CleanUp2(string mail) {
+            return mail.Replace(" ", "") + "\r\n";
         }
 
         public int CompareTo(ContactData other)
@@ -76,7 +95,7 @@ namespace WebAddressBookTests
         }
         public override string ToString()
         {
-            return "firstname: " + Firstname + " lastname: " + Lastname + " ID:" + Id;
+            return "firstname: " + Firstname + ", lastname: " + Lastname + ", ID:" + Id + ", phones:" + allphones;
         }
     }
 }

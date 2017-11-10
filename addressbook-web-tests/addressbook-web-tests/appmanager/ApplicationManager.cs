@@ -31,7 +31,7 @@ namespace WebAddressBookTests
             options.UseLegacyImplementation = true;
             options.BrowserExecutableLocation = @"C:\Program Files (x86)\Mozilla Firefox\firefox.exe";
             driver = new FirefoxDriver(options);
-            baseURL = "http://localhost/";
+            baseURL = "http://localhost:8090/";
         }
 
          ~ApplicationManager()

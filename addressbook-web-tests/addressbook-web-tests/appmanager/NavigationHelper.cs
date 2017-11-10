@@ -19,7 +19,7 @@ namespace WebAddressBookTests
 
         public void GoToGroupspage()
         {
-            if (driver.Url == "http://localhost/addressbook/group.php"
+            if (driver.Url == "http://localhost:8090/addressbook/group.php"
                 && isElementPresent(By.Name("new")))
             {
                 return;
