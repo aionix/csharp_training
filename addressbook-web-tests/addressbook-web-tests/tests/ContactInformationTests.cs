@@ -7,10 +7,10 @@ namespace WebAddressBookTests
     class ContactInformationTests : AuthTestBase
     {
         [Test]
-        public void ContactInfoCompareTest()
+        public void CompareTableAndEditPagesTest()
         {
-            ContactData fromTable = app.contacts.GetContactInformationFromTable(4);
-            ContactData fromForm = app.contacts.GetContactInformationFromEditForm(4);
+            ContactData fromTable = app.contacts.GetContactInformationFromTable(0);
+            ContactData fromForm = app.contacts.GetContactInformationFromEditForm(0);
             Assert.AreEqual(fromTable, fromForm);
             Assert.AreEqual(fromTable.Address,      fromForm.Address);
             Assert.AreEqual(fromTable.Allphones,    fromForm.Allphones); //
@@ -19,10 +19,10 @@ namespace WebAddressBookTests
         }
 
         [Test]
-        public void getdatafromTable()
+        public void GetdatafromTable()
         {
-            ContactData fromTable = app.contacts.GetContactInformationFromTable(0);
-            System.Console.WriteLine(fromTable.Allmails);
+            ContactData fromTable = app.contacts.GetContactInformationFromEditForm(0);
+            System.Console.WriteLine(fromTable.Fullname);
         }
     }
 }

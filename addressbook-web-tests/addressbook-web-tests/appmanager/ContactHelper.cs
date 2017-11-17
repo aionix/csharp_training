@@ -30,6 +30,25 @@ namespace WebAddressBookTests
             };
         }
 
+        public ContactData GetContactInformationFromDetailsPage(int index)
+        {
+            manager.navigator.GoToContactpage();
+            InitContactDetails(index);
+            string alluserinfo = driver.FindElement(By.Id("content")).Text;
+            
+            return new ContactData()
+            {
+                AllUserInfo = alluserinfo
+            };
+
+        }
+
+        public void InitContactDetails(int index)
+        {
+            driver.FindElements(By.Name("entry"))[index].FindElements(By.TagName("td"))[6]
+                .FindElement(By.TagName("a")).Click();
+        }
+
         public ContactData GetContactInformationFromEditForm(int index)
         {
             manager.navigator.GoToContactpage();
@@ -44,7 +63,7 @@ namespace WebAddressBookTests
             string email = driver.FindElement(By.Name("email")).GetAttribute("value");
             string email2 = driver.FindElement(By.Name("email2")).GetAttribute("value");
             string email3 = driver.FindElement(By.Name("email3")).GetAttribute("value");
-          //  System.Console.WriteLine("func " );
+          
             return new ContactData(firstname, lastname)
             {
                 Address = address, Homephone = homephone,

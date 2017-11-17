@@ -1,17 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+
 
 namespace WebAddressBookTests
 {
     public class ContactData : IEquatable<ContactData>, IComparable<ContactData>
     {
 
-        private string allphones;
-        private string allmails;
+        private string _allphones;
+        private string _allmails;
+        private string _fullname;
+        private string _alluserinfo;
+
+        public ContactData()
+        {
+        }
 
         public ContactData(string firstname) {
             Firstname = firstname;
@@ -33,39 +36,69 @@ namespace WebAddressBookTests
         public string Email2        { get; set; }
         public string Email3        { get; set; }
 
+        public string AllUserInfo
+        {
+            get
+            {
+                if (_alluserinfo != null)
+                {//1st Regex finds newlines,  2nd Regex finds "WMH:" and whitespaces
+                    string a = Regex.Replace(_alluserinfo, @"\r\n?|\n ", "");
+                    return Regex.Replace(a, "[\\s]|[{HMW:\\-}]", "");
+
+                }
+                return  CleanUp(Firstname) + CleanUp(Middlename) + CleanUp(Lastname)
+                    +CleanUp(Address)
+                    +CleanUp(Homephone)+CleanUp(Mobile)+CleanUp(WorkPhone)
+                    +CleanUp(Email)+CleanUp(Email2)+CleanUp(Email3);
+            }
+            set => _alluserinfo = value;
+
+        }
+
+        public string Fullname
+        {
+            get
+            {
+                if (_fullname != null) { return _fullname; }
+                return CleanUp(Firstname) + CleanUp(Middlename) + CleanUp(Lastname);
+            }
+            set => _fullname = value;
+        }
+
         public string Allmails {
             get
             {
-                if (allmails != null) { return allmails; }
-                else { return (CleanUp2( Email) +CleanUp2( Email2) + CleanUp2( Email3)).Trim(); }
+                if (_allmails != null)
+                {
+                    return Regex.Replace(_allmails, @"\r\n?|\n", ""); 
+                    
+                }
+                 { return (CleanUp2( Email) +CleanUp2( Email2) + CleanUp2( Email3)).Trim(); }
             }
-            set
-            {
-                allmails = value;
-            }
+            set => _allmails = value;
         }
         public string Allphones {
             get
             {
-                if (allphones != null) { return allphones; }
-                   else { return (CleanUp(Homephone) + CleanUp(Mobile) + CleanUp(WorkPhone)).Trim(); }
-                //else { return CleanUp(allphones); }
+                if (_allphones != null)
+                {
+                    return Regex.Replace(_allphones, @"\r\n?|\n", "");
+                }
+                    return (CleanUp(Homephone) + CleanUp(Mobile) + CleanUp(WorkPhone)).Trim(); 
             }
-            set
-            {
-                allphones = value;
-            }
+            set => _allphones = value;
         }
 
         public string CleanUp(string phone)
         {
             if (phone == null || phone == "") { return ""; }
-            /* replace "[-()]" with "" in string with all phone numbers */            
-            return phone.Replace(" ", "").Replace("(", "").Replace(")", "").Replace("-", "") + "\r\n";           
+
+            /* replace "[-()]" with "" in string with all phone numbers */
+            return phone.Replace(" ", "").Replace("(", "").Replace(")", "").Replace("-", "");
             //return Regex.Replace(phone, "[ -()]", "") +"\r\n";
         }
         public string CleanUp2(string mail) {
-            return mail.Replace(" ", "") + "\r\n";
+            return mail.Replace(" ", "");
         }
 
         public int CompareTo(ContactData other)
@@ -95,7 +128,7 @@ namespace WebAddressBookTests
         }
         public override string ToString()
         {
-            return "firstname: " + Firstname + ", lastname: " + Lastname + ", ID:" + Id + ", phones:" + allphones;
+            return "firstname: " + Firstname + ", lastname: " + Lastname + ", ID:" + Id + ", phones:" + _allphones;
         }
     }
 }
