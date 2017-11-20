@@ -42,8 +42,9 @@ namespace WebAddressBookTests
             {
                 if (_alluserinfo != null)
                 {//1st Regex finds newlines,  2nd Regex finds "WMH:" and whitespaces
-                    string a = Regex.Replace(_alluserinfo, @"\r\n?|\n ", "");
-                    return Regex.Replace(a, "[\\s]|[{HMW:\\-}]", "");
+                    string a =  Regex.Replace(_alluserinfo, @"\r\n?|\n ", "");
+                    return CleanUp(a);
+                    //   return _alluserinfo;
 
                 }
                 return  CleanUp(Firstname) + CleanUp(Middlename) + CleanUp(Lastname)
@@ -72,6 +73,7 @@ namespace WebAddressBookTests
                 {
                     return Regex.Replace(_allmails, @"\r\n?|\n", ""); 
                     
+
                 }
                  { return (CleanUp2( Email) +CleanUp2( Email2) + CleanUp2( Email3)).Trim(); }
             }
@@ -94,8 +96,9 @@ namespace WebAddressBookTests
             if (phone == null || phone == "") { return ""; }
 
             /* replace "[-()]" with "" in string with all phone numbers */
-            return phone.Replace(" ", "").Replace("(", "").Replace(")", "").Replace("-", "");
-            //return Regex.Replace(phone, "[ -()]", "") +"\r\n";
+            return phone.Replace(" ", "").Replace("(", "").Replace(")", "").Replace("-", "")
+                .Replace("H:", "").Replace("W:", "").Replace("M:", "");
+
         }
         public string CleanUp2(string mail) {
             return mail.Replace(" ", "");

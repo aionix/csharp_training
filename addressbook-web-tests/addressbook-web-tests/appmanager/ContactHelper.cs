@@ -36,7 +36,7 @@ namespace WebAddressBookTests
             InitContactDetails(index);
             string alluserinfo = driver.FindElement(By.Id("content")).Text;
             
-            return new ContactData()
+            return new ContactData
             {
                 AllUserInfo = alluserinfo
             };
