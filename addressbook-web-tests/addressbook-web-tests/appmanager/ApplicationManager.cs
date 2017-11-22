@@ -3,6 +3,7 @@ using OpenQA.Selenium.Firefox;
 using System;
 using System.Text;
 using System.Threading;
+using OpenQA.Selenium.Chrome;
 
 namespace WebAddressBookTests
 {
@@ -19,7 +20,7 @@ namespace WebAddressBookTests
         private static ThreadLocal<ApplicationManager> app = new ThreadLocal<ApplicationManager>();
 
         private ApplicationManager() {
-            Init();
+            Init2();
             loginHelper = new LoginHelper(this);
             navigation = new NavigationHelper(this, baseURL);
             groupHelper = new GroupHelper(this);
@@ -32,6 +33,15 @@ namespace WebAddressBookTests
             options.BrowserExecutableLocation = @"C:\Program Files (x86)\Mozilla Firefox\firefox.exe";
             driver = new FirefoxDriver(options);
             baseURL = "http://localhost:8090/";
+        }
+
+        public void Init2()
+        {
+                driver = new ChromeDriver(@"C:\drivers\");
+            //  Driver.Navigate().GoToUrl("http://localhost:8080/#/kendoPoc");
+            Driver.Navigate().GoToUrl("http://localhost:8090/");
+
+            //baseURL = "http://localhost:8090/";
         }
 
          ~ApplicationManager()

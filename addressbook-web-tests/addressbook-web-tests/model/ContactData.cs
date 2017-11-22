@@ -44,8 +44,6 @@ namespace WebAddressBookTests
                 {//1st Regex finds newlines,  2nd Regex finds "WMH:" and whitespaces
                     string a =  Regex.Replace(_alluserinfo, @"\r\n?|\n ", "");
                     return CleanUp(a);
-                    //   return _alluserinfo;
-
                 }
                 return  CleanUp(Firstname) + CleanUp(Middlename) + CleanUp(Lastname)
                     +CleanUp(Address)

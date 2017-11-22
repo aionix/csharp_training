@@ -21,8 +21,10 @@ namespace WebAddressBookTests
         [Test]
         public void GetdatafromTable()
         {
-            ContactData fromTable = app.contacts.GetContactInformationFromDetailsPage(0);
+            ContactData fromTable = app.contacts.GetContactInformationFromEditForm(0);
             System.Console.WriteLine(fromTable.AllUserInfo);
+            ContactData fromDet = app.contacts.GetContactInformationFromDetailsPage(0);
+            System.Console.WriteLine(fromDet.AllUserInfo);
         }
     }
 }

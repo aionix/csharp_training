@@ -1,17 +1,47 @@
 ﻿
 using NUnit.Framework;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading;
 
 namespace WebAddressBookTests.tests
 {
     [TestFixture]
     public class GroupCreationTests : AuthTestBase
-    { 
-        [Test]
-        public void GroupCreationTest()
-        {            
-            GroupData group = new GroupData("header_name", "gr head", "gr foot");
+    {
+        public static IEnumerable<GroupData> RandomGroupDataProvider()
+        {
+            List<GroupData> groups = new List<GroupData>();
+            for (int i = 0; i < 5; i++)
+            {
+                groups.Add(new GroupData(GenerateRandomString(30))
+                {
+                    Header = GenerateRandomString(100),
+                    Footer = GenerateRandomString(100)
+                });
+            }
+            return groups;
+        }
+
+        public static IEnumerable<GroupData> GroupDataFromFile()
+        {
+            List<GroupData> groups = new List<GroupData>();
+            string[] lines = File.ReadAllLines(@"groups.csv");
+            foreach (string l in lines)
+            {
+                string[] parts = l.Split(',');
+                groups.Add(new GroupData(parts[0])
+                {
+                    Header = parts[1], Footer = parts[2]
+                });
+            }
+            return groups;
+        }
+
+        [Test, TestCaseSource("GroupDataFromFile")]
+        public void GroupCreationTest(GroupData group)
+        {         
+         
             List<GroupData> oldGroup = app.groups.GetGroupsList();
 
             app.groups.CreateGroup(group);
