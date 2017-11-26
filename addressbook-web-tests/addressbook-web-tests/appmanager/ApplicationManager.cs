@@ -39,7 +39,7 @@ namespace WebAddressBookTests
         {
                 driver = new ChromeDriver(@"C:\drivers\");
             //  Driver.Navigate().GoToUrl("http://localhost:8080/#/kendoPoc");
-            Driver.Navigate().GoToUrl("http://localhost:8090/");
+            Driver.Navigate().GoToUrl("http://localhost:8090/addressbook/");
 
             //baseURL = "http://localhost:8090/";
         }

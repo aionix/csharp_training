@@ -3,6 +3,8 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
+using System.Xml.Serialization;
+using Newtonsoft.Json;
 
 namespace WebAddressBookTests.tests
 {
@@ -23,7 +25,7 @@ namespace WebAddressBookTests.tests
             return groups;
         }
 
-        public static IEnumerable<GroupData> GroupDataFromFile()
+        public static IEnumerable<GroupData> GroupDataFromCsvFile()
         {
             List<GroupData> groups = new List<GroupData>();
             string[] lines = File.ReadAllLines(@"groups.csv");
@@ -37,8 +39,19 @@ namespace WebAddressBookTests.tests
             }
             return groups;
         }
+        public static IEnumerable<GroupData> GroupDataFromXmlFile()
+        {
+            List<GroupData> groups = new List<GroupData>();
+            return (List < GroupData>) new XmlSerializer(typeof(List<GroupData>))
+                .Deserialize(new StreamReader(@"groups.xml"));    
+        }
+        public static IEnumerable<GroupData> GroupDataFromJsonFile()
+        {
+           // List<GroupData> groups = new List<GroupData>();
+            return JsonConvert.DeserializeObject<List<GroupData>>(File.ReadAllText(@"groups.json"));
+        }
 
-        [Test, TestCaseSource("GroupDataFromFile")]
+        [Test, TestCaseSource("GroupDataFromJsonFile")]
         public void GroupCreationTest(GroupData group)
         {         
          
