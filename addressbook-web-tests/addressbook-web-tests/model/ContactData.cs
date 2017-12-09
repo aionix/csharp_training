@@ -69,11 +69,9 @@ namespace WebAddressBookTests
             {
                 if (_allmails != null)
                 {
-                    return Regex.Replace(_allmails, @"\r\n?|\n", ""); 
-                    
-
+                    return Regex.Replace(_allmails, @"\r\n?|\n", "");
                 }
-                 { return (CleanUp2( Email) +CleanUp2( Email2) + CleanUp2( Email3)).Trim(); }
+                return (CleanUp2(Email) + CleanUp2(Email2) + CleanUp2(Email3)).Trim();
             }
             set => _allmails = value;
         }
@@ -98,7 +96,12 @@ namespace WebAddressBookTests
                 .Replace("H:", "").Replace("W:", "").Replace("M:", "");
 
         }
-        public string CleanUp2(string mail) {
+        public string CleanUp2(string mail)
+        {
+            if (mail == null || mail == "")
+            {
+                return "";
+            }
             return mail.Replace(" ", "");
         }
 

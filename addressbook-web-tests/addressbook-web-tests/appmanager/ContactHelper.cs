@@ -143,7 +143,7 @@ namespace WebAddressBookTests
                 index = 2;
             }driver.FindElement(By.XPath(".//tbody/tr["+ index +"]"+"/td[1]")).Click();
             return this;
-        } 
+        }
 
         public ContactHelper FillContactInfo(ContactData contact)
         {
