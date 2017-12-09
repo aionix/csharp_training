@@ -76,7 +76,15 @@ namespace addressbook_test_data_generators
                 }
                 else if (format == "json")
                 {
-                    WriteToJsonFile(groups, writer);
+                    if (type == "groups")
+                    {
+                        WriteToJsonFile(groups, writer);
+                    }
+                    else if (type == "contacts")
+                    {
+                        WriteToJsonFile(contacts, writer);
+                    }
+                    
                 }
                 else
                 {
@@ -87,7 +95,6 @@ namespace addressbook_test_data_generators
         }
 
         
-
         static void WriteToExcelFile(IList<GroupData> groups, string filename)
         {
             Excel.Application app = new Excel.Application();
@@ -111,6 +118,10 @@ namespace addressbook_test_data_generators
         static void WriteToJsonFile(List<GroupData> groups, StreamWriter writer)
         {
             writer.Write(JsonConvert.SerializeObject(groups));
+        }
+        static void WriteToJsonFile(List<ContactData> contacts, StreamWriter writer)
+        {
+            writer.Write(JsonConvert.SerializeObject(contacts));
         }
 
         static void WriteToCsvFile(List<GroupData> groups, StreamWriter writer)
